@@ -19,14 +19,12 @@ async def on_ready():
     await client.change_presence(status=discord.Status.online, activity=activity)
     os.system('cls' if os.name == 'nt' else 'clear')
     print("""\
-
    ______      __           __          __ 
   / ____/___ _/ /_____     / /_  ____  / /_
  / / __/ __ `/ __/ __ \   / __ \/ __ \/ __/
 / /_/ / /_/ / /_/ /_/ /  / /_/ / /_/ / /_  
 \____/\__,_/\__/\____/  /_.___/\____/\__/  
                                            
-
 """)
     print("Launching Gato Bot....")
     print("Gato Bot has loaded have a good day!")#will print "online message" in the console when the bot is online
@@ -44,9 +42,17 @@ async def allahcmd(ctx, Version=None):
         if role in user.roles:
             url = "https://hummusclient.info/api/account/login"
             payload = {'email': 'astriogamer@riseup.net', 'password': '_Bananapopcorn22_', 'beta' : 'False'}
-            r = requests.post(url, params=payload)
-            dl=r
-            print(dl.json())
+            response = requests.post(url, params=payload)
+            dl=response.json()
+            url = " https://hummusclient.info/api/admin/createDownloadLink"
+            payload = {'token': dl["responseObject"]["token"], 'beta': "True"}
+            rhala = requests.post(url, params=payload)
+            realink = rhala.json()
+            embed=discord.Embed(title="Download Succesful!", description="**Download link**\n" + 
+            realink["statusText"] + "\nThis link will expire in 5 minutes", color=0xff00f6)
+            await user.send(embed=embed)
+
+
 
 
 
